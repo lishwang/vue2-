@@ -79,6 +79,17 @@ class Vue {
           })
         }
 
+        // 双向绑定
+        if (item.hasAttribute('v-model')) {
+          let vmKey = item.getAttribute('v-model').trim();
+          if (this.hasOwnProperty(vmKey)) {
+            item.value = this[vmKey];
+          }
+          item.addEventListener('input', () => {
+            this.$data[vmKey] = item.value;
+          })
+        }
+
         // 递归处理元素节点，替换元素节点中的文本内容
         if (item.childNodes.length) {
           this.compile(item);
